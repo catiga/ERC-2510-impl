@@ -5,36 +5,15 @@ dotenv.config()
 const infuraKey = process.env.INFURA_KEY || ''
 const infuraSecret = process.env.INFURA_SECRET || ''
 const liveNetworkPK = process.env.LIVE_PK || ''
-const updateDeployerPK = process.env.NEW_DEPLOYER_PK || ''
-const mintfunDeployerPK = process.env.MINTFUN_DEPLOYER_PK || ''
-const polygonDeployerPK = process.env.POLYGON_TEST_PK || ''
-const liveNetworkPKBase = process.env.BASE_PK || ''
+
 const playPK = process.env.PLAY_PK
 
-const privateKey = [ liveNetworkPK, mintfunDeployerPK, playPK ]
+const privateKey = [ liveNetworkPK, playPK ]
 const privateAddress = process.env.LIVE_ADDRESS
 const etherscanApiKey = process.env.ETHERS_SCAN_API_KEY || ''
 const polygonApiKey = process.env.POLYGON_SCAN_API_KEY || ''
 const bscApiKey = process.env.BSC_SCAN_API_KEY || ''
 
-/* just for treasury deploy and manage */
-const updatePrivateKey = [updateDeployerPK]
-const updatePrivateAddress = process.env.NEW_DEPLOYER_ADDRESS
-/* just for treasury deploy and manage */
-
-/* just for mintfun */
-const mfPrivateKey = [mintfunDeployerPK]
-const mfPrivateAddress = process.env.MINTFUN_DEPLOYER_ADDRESS
-/* just for mintfun */
-
-/* polygon testnet */
-const polygonPrivateKey = [polygonDeployerPK]
-const polygonPrivateAddress = process.env.POLYGON_TEST_ADDRESS
-/* polygon testnet */
-
-/* base */
-const privateKeyBase = [ liveNetworkPKBase ]
-const privateAddressBase = process.env.BASE_ADDRESS
 
 module.exports = {
   networks: {
@@ -44,24 +23,9 @@ module.exports = {
       network_id: "5777",
       websocket: true
     },
-    dis_mainnet: {
-      provider: () => new HDWalletProvider({
-        //privateKeys: updatePrivateKey,
-        privateKeys: privateKey,
-        providerOrUrl: `https://rpc.dischain.xyz`,
-        pollingInterval: 56000
-      }),
-      network_id: 513100,
-      confirmations: 2,
-      timeoutBlocks: 100,
-      skipDryRun: true,
-      // from: updatePrivateAddress,
-      from: privateAddress,
-      networkCheckTimeout: 99999999
-    },
     eth_mainnet: {
       provider: () => new HDWalletProvider({
-        privateKeys: mfPrivateKey,
+        privateKeys: privateKey,
         providerOrUrl: `https://mainnet.infura.io/v3/db7ad163cfed48c181c8456f2ab3fe54`,
         pollingInterval: 56000
       }),
@@ -69,7 +33,7 @@ module.exports = {
       confirmations: 2,
       timeoutBlocks: 100,
       skipDryRun: true,
-      from: mfPrivateAddress,
+      from: privateAddress,
       networkCheckTimeout: 999999
     },
     bsc_mainnet: {
@@ -87,7 +51,7 @@ module.exports = {
     },
     base_mainnet: {
       provider: () => new HDWalletProvider({
-        privateKeys: privateKeyBase,
+        privateKeys: privateKey,
         providerOrUrl: `https://mainnet.base.org`,
         pollingInterval: 56000
       }),
@@ -95,7 +59,7 @@ module.exports = {
       confirmations: 2,
       timeoutBlocks: 100,
       skipDryRun: true,
-      from: privateAddressBase,
+      from: privateAddress,
       networkCheckTimeout: 999999,
       gasPrice: 1000000000
     },
