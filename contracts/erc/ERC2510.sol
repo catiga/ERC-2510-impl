@@ -31,10 +31,9 @@ contract ERC2510 is Context, IERC2510, ERC2510Liquidity, IERC165 {
      * All two of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor(string memory name_, string memory symbol_, uint256 totalSupply_) payable {
+    constructor(string memory name_, string memory symbol_) payable {
         _name = name_;
         _symbol = symbol_;
-        _totalSupply = totalSupply_;
         _keeper = new ERC2510Keeper();
         // _mint(msg.sender, _totalSupply);
         if(msg.value > 0) {
